@@ -56,29 +56,74 @@
 
 <div class="container">
 
-    <form action="/salvarCidade" th:object="${cidade}" method="POST">
+    <form action="/salvarFuncionario" th:object="${funcionario}" method="POST">
         <div class="mb-3">
 
-            <label for="id">ID:</label>
-            <input type="text" readonly="true" class="form-control" id="id" th:field="*{id}">
+            <div class="row">
+                <div class="col-md">
+                    <label for="id">ID:</label>
+                    <input type="text" readonly="true" class="form-control bg-secondary-subtle" id="id" th:field="*{id}">
+                </div>
 
-            <label >Nome Cidade:</label>
-            <input type="text" required class="form-control" id="nome" th:field="*{nome}">
+                <div class="col-md">
+                    <label >Nome do Funcionario:</label>
+                    <input type="text" required class="form-control" id="nome" th:field="*{nome}">
+                </div>
 
-            <label >CEP:</label>
-            <input type="text" required class="form-control" id="cep" name="cep" th:field="*{cep}">
+                <div class="col-md">
+                    <label >CPF:</label>
+                    <input type="text" required class="form-control" id="cpf" th:field="*{cpf}">
+                </div>
+            </div>
 
-            <label >Estado:</label>
-            <select th:field="*{estado}" class="form-control" >
-                <option th:each="est : ${listaEstados}" th:value="${est.id}" th:text="${est.nome}" ></option>
-            </select>
+            <div class="row">
+                <div class="col-md">
+                    <label >Telefone:</label>
+                    <input type="text" required class="form-control" id="telefone" th:field="*{telefone}">
+                </div>
+
+                <div class="col-md">
+                    <label >Endereço:</label>
+                    <input type="text" required class="form-control" id="endereco" th:field="*{endereco}">
+                </div>
+
+                <div class="col-md">
+                    <label >Numero:</label>
+                    <input type="text" required class="form-control" id="numero" th:field="*{numero}">
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md">
+                    <label >Bairro:</label>
+                    <input type="text" required class="form-control" id="bairro" th:field="*{bairro}">
+                </div>
+
+                <div class="col-md">
+                    <label >Email:</label>
+                    <input type="text" required class="form-control" id="email" th:field="*{email}">
+                </div>
+
+                <div class="col-md">
+                    <label >Cargo:</label>
+                    <input type="text" required class="form-control"  th:field="*{funcao}">
+                </div>
+
+                <div class="col-md">
+                    <label >Cidade:</label>
+                    <select th:field="*{cidade}" class="form-control" >
+                        <option th:each="est : ${listaCidades}" th:value="${est.id}" th:text="${est.nome}" ></option>
+                    </select>
+                </div>
+            </div>
 
         </div>
 
-
         <button type="submit" class="btn btn-success"><i class="fa-solid fa-share-from-square"></i> Salvar</button>
         <a href="/administrativo" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Voltar</a>
-        <a href="/listarCidade" class="btn btn-warning"><i class="fa-solid fa-list-check"></i> Listagem</a>
+        <a href="/listarFuncionario" class="btn btn-warning"><i class="fa-solid fa-list-check"></i> Listagem</a>
 
     </form>
 
@@ -97,8 +142,11 @@
 <!-- Máscara no campo CEP -->
 <script>
     $(document).ready(function () {
-      const campoCep = $('#cep');
-      campoCep.mask('00000-000');
+      const campoCep = $('#cpf');
+      campoCep.mask('000.000.000-00');
+
+      const campoTelefone = $('#telefone');
+      campoTelefone.mask('(00) 0 0000-0000');
 
       let valor = campoCep.val().replace(/\D/g, '');
       if (valor.length === 8) {
@@ -106,5 +154,8 @@
       }
     });
 </script>
+
+
+
 </body>
 </html>
