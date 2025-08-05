@@ -20,7 +20,7 @@
         <img src="https://web.adminfo.com.br/wp-content/uploads/2021/03/logoadm-bco-1024x396.png"
              alt="Logo" width="30" height="24" class="d-inline-block align-text-top" style="margin-right: 10px;">
 
-        <a class="navbar-brand" href="/administrativo">Academy Tech</a>
+        <a class="navbar-brand" href="#">Academy Tech</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -56,101 +56,70 @@
 
 <div class="container">
 
-    <form action="/salvarFornecedor" th:object="${fornecedor}" method="POST">
+    <form action="/salvarProduto" th:object="${produto}" method="POST">
         <div class="mb-3">
 
-            <div class="row">
-                <div class="col-md">
-                    <label for="id">ID:</label>
-                    <input type="text" readonly="true" class="form-control bg-secondary-subtle" id="id" th:field="*{id}">
-                </div>
+            <label for="id">ID:</label>
+            <input type="text" readonly="true" class="form-control" id="id" th:field="*{id}">
 
-                <div class="col-md">
-                    <label >Nome do Fornecedor:</label>
-                    <input type="text" required class="form-control" id="nome" th:field="*{nome}">
-                </div>
+            <label for="nome">Nome do Produto:</label>
+            <input type="text" class="form-control" id="nome" th:field="*{nome}">
 
-                <div class="col-md">
-                    <label >CNPJ:</label>
-                    <input type="text" required class="form-control" id="cpf" th:field="*{cnpj}">
-                </div>
-            </div>
+            <label >Codigo de Barras:</label>
+            <input type="text" class="form-control"  th:field="*{codigoBarras}">
+
+            <label>Unidade de Medida:</label>
+            <input type="text" class="form-control" placeholder="un. cx. pct. lt."  th:field="*{unidadeMedida}">
 
             <div class="row">
-                <div class="col-md">
-                    <label >Telefone:</label>
-                    <input type="text" required class="form-control" id="telefone" th:field="*{telefone}">
+                <div class="col">
+                    <label>Estoque:</label>
+                    <input type="number" class="form-control"  th:field="*{estoque}">
                 </div>
 
-                <div class="col-md">
-                    <label >Endereço:</label>
-                    <input type="text" required class="form-control" id="endereco" th:field="*{endereco}">
+                <div class="col">
+                    <label>Preço de Custo:</label>
+                    <input type="number" class="form-control" id="precoCusto" th:field="*{precoCusto}">
                 </div>
 
-                <div class="col-md">
-                    <label >Numero:</label>
-                    <input type="text" required class="form-control" id="numero" th:field="*{numero}">
+                <div class="col">
+                    <label>Preço de Venda:</label>
+                    <input type="number" class="form-control" id="precoVenda"  th:field="*{precoVenda}">
                 </div>
 
-
-            </div>
-
-            <div class="row">
-                <div class="col-md">
-                    <label >Bairro:</label>
-                    <input type="text" required class="form-control" id="bairro" th:field="*{bairro}">
+                <div class="col">
+                    <label>Lucro:</label>
+                    <input type="number" class="form-control"  th:field="*{lucro}">
                 </div>
 
-                <div class="col-md">
-                    <label >Email:</label>
-                    <input type="text" required class="form-control" id="email" th:field="*{email}">
-                </div>
-
-                <div class="col-md">
-                    <label >Cidade:</label>
-                    <select th:field="*{cidade}" class="form-control" >
-                        <option th:each="est : ${listaCidades}" th:value="${est.id}" th:text="${est.nome}" ></option>
-                    </select>
+                <div class="col">
+                    <label>Margem de Lucro:</label>
+                    <input type="number" class="form-control"  th:field="*{margemLucro}">
                 </div>
             </div>
 
         </div>
 
+
         <button type="submit" class="btn btn-success"><i class="fa-solid fa-share-from-square"></i> Salvar</button>
         <a href="/administrativo" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Voltar</a>
-        <a href="/listarFornecedor" class="btn btn-warning"><i class="fa-solid fa-list-check"></i> Listagem</a>
+        <a href="/listarProduto" class="btn btn-warning"><i class="fa-solid fa-list-check"></i> Listagem</a>
 
     </form>
 
 </div>
 
-<!-- jQuery SEM integrity -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 
-<!-- jQuery Mask Plugin -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"
-        referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Máscara no campo CEP -->
 <script>
     $(document).ready(function () {
-      const campoCep = $('#cpf');
-      campoCep.mask('00.000.000/0000-00');
-
-      const campoTelefone = $('#telefone');
-      campoTelefone.mask('(00) 0 0000-0000');
-
-      let valor = campoCep.val().replace(/\D/g, '');
-      if (valor.length === 8) {
-        campoCep.val(valor.replace(/^(\d{5})(\d{3})$/, '$1-$2'));
-      }
+        $('#precoVenda, #precoCusto').mask('R$ 000.000.000,00', {reverse: true});
     });
 </script>
-
-
 
 </body>
 </html>

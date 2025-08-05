@@ -52,48 +52,48 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container">
 
     <table class="table" id="tabela">
         <thead>
         <tr>
             <td>ID</td>
             <td>Nome</td>
-            <td>CNPJ</td>
-            <td>Telefone</td>
-            <td>Endereço</td>
-            <td>Numero</td>
-            <td>Bairro</td>
-            <td>Email</td>
-            <td>Cidade</td>
-            <td>Ação</td>
-<!--            <th colspan="2">Ações</th>-->
+            <td>Código de Barras</td>
+            <td>Un. Medida</td>
+            <td>Estoque</td>
+            <td>Preço de Custo</td>
+            <td>Preço de Venda</td>
+            <td>Lucro</td>
+            <td>Margem de Lucro</td>
+            <th>Ações</th>
         </tr>
 
         </thead>
 
         <tbody >
-        <tr th:each="fornecedor: ${listaFornecedor}">
-            <td th:text="${fornecedor.id}" ></td>
-            <td th:text="${fornecedor.nome}" ></td>
-            <td th:text="${fornecedor.cnpj}" ></td>
-            <td th:text="${fornecedor.telefone}" ></td>
-            <td th:text="${fornecedor.endereco}" ></td>
-            <td th:text="${fornecedor.numero}" ></td>
-            <td th:text="${fornecedor.bairro}" ></td>
-            <td th:text="${fornecedor.email}" ></td>
-            <td th:text="${fornecedor.cidade?.nome}"></td>
+        <tr th:each="produto: ${listaProduto}">
+            <td th:text="${produto.id}" ></td>
+            <td th:text="${produto.nome}" ></td>
+            <td th:text="${produto.codigoBarras}" ></td>
+            <td th:text="${produto.unidadeMedida}" ></td>
+            <td th:text="${produto.estoque}" ></td>
+            <td th:text="${produto.precoCusto}" ></td>
+            <td th:text="${produto.precoVenda}" ></td>
+            <td th:text="${produto.lucro}" ></td>
+            <td th:text="${produto.margemLucro}" ></td>
+
 
             <td colspan="2" >
-                <a th:href="@{/editarFornecedor/{id}(id=${fornecedor.id})}"><i class="fa-solid fa-pen-to-square" style="color: green;"></i></a>
-                <a th:href="@{/removerFornecedor/{id}(id=${fornecedor.id})}"><i class="fa-solid fa-trash" style="color: #c10b0b;"></i></a>
+                <a th:href="@{/editarProduto/{id}(id=${produto.id})}"><i class="fa-solid fa-pen-to-square" style="color: green;"></i></a>
+                <a th:href="@{/removerProduto/{id}(id=${produto.id})}"><i class="fa-solid fa-trash" style="color: #c10b0b;"></i></a>
             </td>
         </tr>
         </tbody>
     </table>
 
     <a href="/administrativo" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Voltar</a>
-    <a href="/cadastroFornecedor" class="btn btn-success"><i class="fa-solid fa-plus"></i> Cadastrar</a>
+    <a href="/cadastroProduto" class="btn btn-success"><i class="fa-solid fa-plus"></i> Cadastrar</a>
 
 </div>
 
