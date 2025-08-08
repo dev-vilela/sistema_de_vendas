@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name="produto")
 public class Produto implements Serializable {
 
 
