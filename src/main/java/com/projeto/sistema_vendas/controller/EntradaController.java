@@ -3,6 +3,7 @@ package com.projeto.sistema_vendas.controller;
 import com.projeto.sistema_vendas.model.Cidade;
 import com.projeto.sistema_vendas.model.Entrada;
 import com.projeto.sistema_vendas.model.ItemEntrada;
+import com.projeto.sistema_vendas.model.Produto;
 import com.projeto.sistema_vendas.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,12 +78,33 @@ public class EntradaController {
 
     //SALVAR
     @PostMapping("/salvarEntrada")
-    public ModelAndView salvar(Entrada entrada, ItemEntrada itemEntrada ,BindingResult result){
+    public ModelAndView salvar(String acao, Entrada entrada, ItemEntrada itemEntrada ,BindingResult result){
         if (result.hasErrors()){
             return cadastrar(entrada, itemEntrada);
         }
-        entradaRepository.saveAndFlush(entrada);
-        return cadastrar(new Entrada(), new ItemEntrada());
+        if (acao.equals("itens")){
+            this.listaItemEntrada.add(itemEntrada);
+            entrada.setValorTotal(entrada.getValorTotal() + (itemEntrada.getValor() * itemEntrada.getQuantidade()));
+            entrada.setQtdTotal(entrada.getQtdTotal() + itemEntrada.getQuantidade());
+        } else if (acao.equals("salvar")) {
+            entradaRepository.saveAndFlush(entrada);
+
+            for (ItemEntrada it : listaItemEntrada){
+                it.setEntrada(entrada);
+                itemEntradaRepository.saveAndFlush(itemEntrada);
+
+                Optional<Produto> prod = produtoRepository.findById(it.getProduto().getId());
+                Produto produto = prod.get();
+                produto.setEstoque(produto.getEstoque() + it.getQuantidade());
+                produto.setPrecoVenda(it.getValor());
+                produto.setPrecoCusto(it.getValorCusto());
+                produtoRepository.saveAndFlush(produto);
+
+                this.listaItemEntrada = new ArrayList<>();
+            }
+            return cadastrar(new Entrada(), new ItemEntrada());
+        }
+          return cadastrar(entrada, new ItemEntrada());
     }
 
     public List<ItemEntrada> getListaItemEntrada() {

@@ -54,89 +54,110 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container mt-5">
 
     <form action="/salvarEntrada" th:object="${entrada}" method="POST">
         <div class="mb-3">
 
-            <label for="id">ID:</label>
-            <input type="text" readonly="true" class="form-control" id="id" th:field="*{id}">
+            <!-- ITEM ENTRADA     -->
 
-            <label >Observação:</label>
-            <input type="text" required class="form-control" id="nome" th:field="*{obs}">
+            <div class="row"  th:object="${itemEntrada}" >
+                <div class="col-6">
+                    <label >Produtos:</label>
+                    <select th:field="*{produto}" class="form-control" >
+                        <option th:each="est : ${listaProduto}" th:value="${est.id}" th:text="${est.nome}" ></option>
+                    </select>
+                </div>
 
-            <label >Funcionário:</label>
-            <select th:field="*{funcionario}" class="form-control" >
-                <option th:each="est : ${listaFuncionario}" th:value="${est.id}" th:text="${est.nome}" ></option>
-            </select>
+                <div class="col">
+                    <label >Quantidade:</label>
+                    <input type="text"  class="form-control"  th:field="*{quantidade}">
+                </div>
 
-            <label >Fornecedores:</label>
-            <select th:field="*{fornecedor}" class="form-control" >
-                <option th:each="est : ${listaFornecedor}" th:value="${est.id}" th:text="${est.nome}" ></option>
-            </select>
+                <div class="col">
+                    <label >Valor de Custo:</label>
+                    <input type="text"  class="form-control"  th:field="*{valorCusto}">
+                </div>
 
-            <label >Valor Total:</label>
-            <input type="text" readonly="readonly" class="form-control"  th:field="*{valorTotal}">
+                <div class="col">
+                    <label >Valor de Venda:</label>
+                    <input type="text"  class="form-control"  th:field="*{valor}">
+                </div>
 
-            <label >Quantidade Total:</label>
-            <input type="text" readonly="readonly" class="form-control"  th:field="*{qtdTotal}">
+                <div class="col">
+                    <button name="acao" th:value="itens" style="margin-top:25px" type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                </div>
 
-                <!-- ITEM ENTRADA     -->
-            <div class="form-row" th:object="${itemEntrada}" >
-
-                <label >Produtos:</label>
-                <select th:field="*{produto}" class="form-control" >
-                    <option th:each="est : ${listaProduto}" th:value="${est.id}" th:text="${est.nome}" ></option>
-                </select>
-
-                <label >Quantidade:</label>
-                <input type="text" readonly="readonly" class="form-control"  th:field="*{quantidade}">
-
-                <label >Valor de Custo:</label>
-                <input type="text" readonly="readonly" class="form-control"  th:field="*{valorCusto}">
-
-                <label >Valor de Venda:</label>
-                <input type="text" readonly="readonly" class="form-control"  th:field="*{valor}">
-
-                <button name="acao" th:value="itens" type="submit" class="btn btn-primary">Adicionar</button>
             </div>
-            <!----TABELA DOS ITENS-->
 
-            <table class="table" id="tabela">
-                <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Produto</td>
-                    <td>Quantidade</td>
-                    <td>Valor Custo</td>
-                    <td>Valor de Venda</td>
-                    <td>Ação</td>
-                </tr>
+            <div class="row">
 
-                </thead>
+                <div class="col-4">
+                    <label for="id">ID:</label>
+                    <input type="text" readonly="true" class="form-control" id="id" th:field="*{id}">
 
-                <tbody >
-                <tr th:each="itemEntrada: ${listaItemEntrada}">
-                    <td th:text="${itemEntrada.id}" ></td>
-                    <td th:text="${itemEntrada.produto.nome}" ></td>
-                    <td th:text="${itemEntrada.quantidade}" ></td>
-                    <td th:text="${itemEntrada.valorCusto}" ></td>
-                    <td th:text="${itemEntrada.valorVenda}" ></td>
+                    <label >Observação:</label>
+                    <input type="text"  class="form-control" id="nome" th:field="*{obs}">
 
-                    <td colspan="2" >
-                        <a th:href="@{/editarItemEntrada/{id}(id=${itemEntrada.id})}"><i class="fa-solid fa-pen-to-square" style="color: green;"></i></a>
-                        <a th:href="@{/removerItemEntrada/{id}(id=${itemEntrada.id})}"><i class="fa-solid fa-trash" style="color: #c10b0b;"></i></a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    <label >Funcionário:</label>
+                    <select th:field="*{funcionario}" class="form-control" >
+                        <option th:each="est : ${listaFuncionario}" th:value="${est.id}" th:text="${est.nome}" ></option>
+                    </select>
+
+                    <label >Fornecedores:</label>
+                    <select th:field="*{fornecedor}" class="form-control" >
+                        <option th:each="est : ${listaFornecedor}" th:value="${est.id}" th:text="${est.nome}" ></option>
+                    </select>
+
+                    <label >Quantidade Total:</label>
+                    <input type="text" readonly="readonly" class="form-control"  th:field="*{qtdTotal}">
+
+                    <label >Valor Total:</label>
+                    <input type="text" readonly="readonly" class="form-control"  th:field="*{valorTotal}">
+
+                    <button type="submit" name="acao" th:value="salvar" class="btn btn-success mt-3"><i class="fa-solid fa-share-from-square"></i> Salvar</button>
+                    <a href="/administrativo" class="btn btn-primary mt-3"><i class="fas fa-arrow-left "></i> Voltar</a>
+                    <a href="/listarEntrada" class="btn btn-warning mt-3"><i class="fa-solid fa-list-check "></i> Listagem</a>
+                </div>
+
+                <div class="col">
+                    <!----TABELA DOS ITENS-->
+
+                    <table class="table table-striped  mt-4" id="tabela">
+                        <thead class="table-primary" style="color:white">
+                        <tr>
+                            <td>ID</td>
+                            <td>Produto</td>
+                            <td>Quantidade</td>
+                            <td>Valor Custo</td>
+                            <td>Valor de Venda</td>
+                            <td>Ação</td>
+                        </tr>
+
+                        </thead>
+
+                        <tbody >
+                        <tr th:each="itemEntrada: ${listaItemEntrada}">
+                            <td th:text="${itemEntrada.id}" ></td>
+                            <td th:text="${itemEntrada.produto.nome}" ></td>
+                            <td th:text="${itemEntrada.quantidade}" ></td>
+                            <td th:text="${itemEntrada.valorCusto}" ></td>
+                            <td th:text="${itemEntrada.valor}" ></td>
+
+                            <td colspan="2" >
+                                <a th:href="@{/editarItemEntrada/{id}(id=${itemEntrada.id})}"><i class="fa-solid fa-pen-to-square" style="color: green;"></i></a>
+                                <a th:href="@{/removerItemEntrada/{id}(id=${itemEntrada.id})}"><i class="fa-solid fa-trash" style="color: #c10b0b;"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
 
         </div>
-
-
-        <button type="submit" class="btn btn-success"><i class="fa-solid fa-share-from-square"></i> Salvar</button>
-        <a href="/administrativo" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Voltar</a>
-        <a href="/listarEntrada" class="btn btn-warning"><i class="fa-solid fa-list-check"></i> Listagem</a>
 
     </form>
 
