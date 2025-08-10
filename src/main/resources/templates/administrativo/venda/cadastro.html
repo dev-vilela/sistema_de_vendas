@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+
+        <img src="https://web.adminfo.com.br/wp-content/uploads/2021/03/logoadm-bco-1024x396.png"
+             alt="Logo" width="30" height="24" class="d-inline-block align-text-top" style="margin-right: 10px;">
+
+        <a class="navbar-brand" href="#">Academy Tech</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <!-- <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li> -->
+
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="pesquisar" aria-label="Search"/>
+                <button class="btn btn-outline-light" type="submit">Pesquisar</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <form action="/salvarVenda" th:object="${venda}" method="POST">
+        <div class="mb-3">
+
+            <!-- ITEM ENTRADA     -->
+
+            <div class="row"  th:object="${itemVenda}" >
+                <div class="col-6">
+                    <label >Produtos:</label>
+                    <select th:field="*{produto}" class="form-control" >
+                        <option th:each="est : ${listaProduto}" th:value="${est.id}" th:text="${est.nome}" ></option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label >Quantidade:</label>
+                    <input type="text"  class="form-control"  th:field="*{quantidade}">
+                </div>
+
+<!--                <div class="col">-->
+<!--                    <label >Valor de Venda:</label>-->
+<!--                    <input type="text"  class="form-control"  th:field="*{valor}">-->
+<!--                </div>-->
+
+                <div class="col">
+                    <button name="acao" th:value="itens" style="margin-top:25px" type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i> Adicionar</button>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-4">
+                    <label for="id">ID:</label>
+                    <input type="text" readonly="true" class="form-control" id="id" th:field="*{id}">
+
+                    <label >Observação:</label>
+                    <input type="text"  class="form-control" id="nome" th:field="*{obs}">
+
+                    <label >Funcionário:</label>
+                    <select th:field="*{funcionario}" class="form-control" >
+                        <option th:each="est : ${listaFuncionario}" th:value="${est.id}" th:text="${est.nome}" ></option>
+                    </select>
+
+                    <label >Cliente:</label>
+                    <select th:field="*{cliente}" class="form-control" >
+                        <option th:each="est : ${listaCliente}" th:value="${est.id}" th:text="${est.nome}" ></option>
+                    </select>
+
+                    <label >Quantidade Total:</label>
+                    <input type="text" readonly="readonly" class="form-control"  th:field="*{qtdTotal}">
+
+                    <label >Valor Total:</label>
+                    <input type="text" readonly="readonly" class="form-control"  th:field="*{valorTotal}">
+
+                    <button type="submit" name="acao" th:value="salvar" class="btn btn-success mt-3"><i class="fa-solid fa-share-from-square"></i> Salvar</button>
+                    <a href="/administrativo" class="btn btn-primary mt-3"><i class="fas fa-arrow-left "></i> Voltar</a>
+                    <a href="/listarVenda" class="btn btn-warning mt-3"><i class="fa-solid fa-list-check "></i> Listagem</a>
+                </div>
+
+                <div class="col">
+                    <!----TABELA DOS ITENS-->
+
+                    <table class="table table-striped  mt-4" id="tabela">
+                        <thead class="table-primary" style="color:white">
+                        <tr>
+                            <td>ID</td>
+                            <td>Produto</td>
+                            <td>Quantidade</td>
+                            <td>Valor Unitario</td>
+                            <td>SubTotal</td>
+                            <td>Ação</td>
+                        </tr>
+
+                        </thead>
+
+                        <tbody >
+                        <tr th:each="itemVenda: ${listaItemVenda}">
+                            <td th:text="${itemVenda.id}" ></td>
+                            <td th:text="${itemVenda.produto.nome}" ></td>
+                            <td th:text="${itemVenda.quantidade}" ></td>
+                            <td th:text="${itemVenda.subTotal}" ></td>
+                            <td th:text="${itemVenda.valor}" ></td>
+
+                            <td colspan="2" >
+                                <a th:href="@{/editarItemVenda/{id}(id=${itemVenda.id})}"><i class="fa-solid fa-pen-to-square" style="color: green;"></i></a>
+                                <a th:href="@{/removerItemVenda/{id}(id=${itemVenda.id})}"><i class="fa-solid fa-trash" style="color: #c10b0b;"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- jQuery SEM integrity -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery Mask Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"
+        referrerpolicy="no-referrer"></script>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Máscara no campo CEP -->
+<script>
+    $(document).ready(function () {
+      const campoCep = $('#cep');
+      campoCep.mask('00000-000');
+
+      let valor = campoCep.val().replace(/\D/g, '');
+      if (valor.length === 8) {
+        campoCep.val(valor.replace(/^(\d{5})(\d{3})$/, '$1-$2'));
+      }
+    });
+</script>
+</body>
+</html>

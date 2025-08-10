@@ -45,7 +45,7 @@ public class EntradaController {
     public ModelAndView cadastrar(Entrada entrada, ItemEntrada itemEntrada){
         ModelAndView mv = new ModelAndView("administrativo/entrada/cadastro");
         mv.addObject("entrada", entrada);
-        mv.addObject("ItemEntrada", itemEntrada);
+        mv.addObject("itemEntrada", itemEntrada);
         mv.addObject("listaItemEntrada", this.listaItemEntrada);
         mv.addObject("listaFuncionario", funcionarioRepository.findAll());
         mv.addObject("listaFornecedor", forncedorRepository.findAll());
@@ -62,11 +62,12 @@ public class EntradaController {
     }
 
     //EDITAR
-//    @GetMapping("/editarEntrada/{id}")
-//    public ModelAndView editar(@PathVariable("id") Long id){
-//        Optional<Entrada> entrada = entradaRepository.findById(id);
-//        return cadastrar(entrada.get());
-//    }
+    @GetMapping("/editarEntrada/{id}")
+    public ModelAndView editar(@PathVariable("id") Long id){
+        Optional<Entrada> entrada = entradaRepository.findById(id);
+        this.listaItemEntrada = itemEntradaRepository.buscarPorEntrada(entrada.get().getId());
+        return cadastrar(entrada.get(), new ItemEntrada());
+    }
 
     //REMOVER
 //    @GetMapping("/removerCidade/{id}")
@@ -91,7 +92,7 @@ public class EntradaController {
 
             for (ItemEntrada it : listaItemEntrada){
                 it.setEntrada(entrada);
-                itemEntradaRepository.saveAndFlush(itemEntrada);
+                itemEntradaRepository.saveAndFlush(it);
 
                 Optional<Produto> prod = produtoRepository.findById(it.getProduto().getId());
                 Produto produto = prod.get();

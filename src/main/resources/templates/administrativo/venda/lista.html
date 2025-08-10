@@ -58,9 +58,9 @@
         <thead>
         <tr>
             <td>ID</td>
-            <td>Nome Fornecedor</td>
-            <td>Nome Funcioanrio</td>
-            <td>Data Entrada</td>
+            <td>Nome Cliente</td>
+            <td>Nome Funcionario</td>
+            <td>Data Venda</td>
             <td>Valor Total</td>
             <td>Opções</td>
         </tr>
@@ -68,23 +68,23 @@
         </thead>
 
         <tbody >
-        <tr th:each="entrada: ${listaEntrada}">
-            <td th:text="${entrada.id}" ></td>
-            <td th:text="${entrada.fornecedor.nome}" ></td>
-            <td th:text="${entrada.funcionario.nome}" ></td>
-            <td th:text="${entrada.dataEntrada}" ></td>
-            <td th:text="${entrada.valorTotal}" ></td>
+        <tr th:each="venda: ${listaVenda}">
+            <td th:text="${venda.id}" ></td>
+            <td th:text="${venda.cliente.nome}" ></td>
+            <td th:text="${venda.funcionario.nome}" ></td>
+            <td th:text="${venda.dataVenda}" ></td>
+            <td th:text="${venda.valorTotal}" ></td>
 
             <td colspan="2" >
-                <a th:href="@{/editarEntrada/{id}(id=${entrada.id})}"><i class="fa-solid fa-pen-to-square" style="color: green;"></i></a>
-                <a th:href="@{/removerEntrada/{id}(id=${entrada.id})}"><i class="fa-solid fa-trash" style="color: #c10b0b;"></i></a>
+                <a th:href="@{/editarVenda/{id}(id=${venda.id})}"><i class="fa-solid fa-pen-to-square" style="color: green;"></i></a>
+                <a th:href="@{/removerVenda/{id}(id=${venda.id})}"><i class="fa-solid fa-trash" style="color: #c10b0b;"></i></a>
             </td>
         </tr>
         </tbody>
     </table>
 
     <a href="/administrativo" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Voltar</a>
-    <a href="/cadastroEntrada" class="btn btn-success"><i class="fa-solid fa-plus"></i> Cadastrar</a>
+    <a href="/cadastroVenda" class="btn btn-success"><i class="fa-solid fa-plus"></i> Cadastrar</a>
 
 </div>
 
